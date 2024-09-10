@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     // So generally this is the best thing to use for almost all fields.
     [SerializeField] float moveSpeed;
     [SerializeField] float jumpForce;
+    [SerializeField] GameManager manager;
 
     // References
     // We will use references anytime we need to access and communicate with a specific instance of any other class.
@@ -100,5 +101,14 @@ public class PlayerController : MonoBehaviour
         // If you're wondering, all forces in Unity are in Newtons.
         // If you don't know what a Newton is, and want to know, just ask us. This isn't a physics class unfortunately.
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+       private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("Object Touched: " + collision.gameObject.name);
+        if (collision.gameObject.name.Contains("item_")){
+            Destroy(collision.gameObject);
+            manager.IncreaseScore(1);
+        }
     }
 }
